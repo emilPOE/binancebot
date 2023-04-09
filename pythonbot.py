@@ -129,7 +129,10 @@ while True:
 
     # Wartezeit anzeigen
     minutes, seconds = divmod(wait_time, 60)
-    print(f"wait for: {minutes:02d}min {seconds:02d}sec")
+    # assuming that minutes and seconds are float values
+    formatted_minutes = int(minutes)
+    formatted_seconds = int(seconds)
+    print(f"wait for: {formatted_minutes:02d}min {formatted_seconds:02d}sec")
     print("-----------------------------------------------------------------")
 
     # Pause für die berechnete Zeit
