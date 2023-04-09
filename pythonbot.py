@@ -35,10 +35,13 @@ while True:
         tusd_amount_lookup = {
             0: 0.1,
             1: 0.1,
-            2: 0.1,
-            3: 0.2,
-            4: 0.2,
-            5: 0.3,
+            2: 0.11,
+            3: 0.11,
+            4: 0.11,
+            5: 0.11,
+            6: 0.11,
+            7: 0.125,
+            8: 0.125,
         }
 
         # tusd_amount berechnen basierend auf num_open_orders
@@ -53,13 +56,13 @@ while True:
         if tusd_balance is not None and decimal.Decimal(tusd_balance["free"]) >= decimal.Decimal(tusd_amount):
 
             # Execute market buy order for the specified amount in TUSD
-            order = client.order_market_buy(symbol=symbol, quoteOrderQty=tusd_amount)
+            #order = client.order_market_buy(symbol=symbol, quoteOrderQty=tusd_amount)
 
             # Get the average price of the buy order
             avg_price = decimal.Decimal(order["fills"][0]["price"])
 
             # Calculate the sell price with 0.1% profit
-            profit = 0.0005 * (1 + num_open_orders)
+            profit = 0.00025
             profit_percent = decimal.Decimal(profit)
             sell_price = avg_price * (decimal.Decimal(1) + profit_percent)
 
@@ -100,14 +103,36 @@ while True:
             if client.get_trade_fee()["success"]:
                 print("Fees have been paid. Stopping the program.")
                 break
+            else:
+                print("$$$ No fees $$$")
 
     except Exception as e:
         print(f"Error occurred: {e}")
 
-    # Wait for 60 seconds before executing the next iteration of the loop
-    num_open_orders = len(client.get_open_orders(symbol=symbol))
-    wait_time = (60 * 5) * (2 ** (1 + num_open_orders))
-    minutes, seconds = divmod(wait_time, 60)
-    print(f"wait for: {minutes:02d}min {seconds:02d}sec")
-    print("-----------------------------------------------------------------")
-    time.sleep(wait_time)
+# Wartezeiten Lookup-Tabelle basierend auf num_open_orders
+wait_time_lookup = {
+    0: (60 * 5),
+    1: (60 * 10),
+    2: (60 * 20),
+    3: (60 * 40),
+    4: (60 * 60),
+    5: (60 * 60),
+    6: (60 * 60 * 1.5),
+    7: (60 * 60 * 2),
+    8: (60 * 60 * 2),
+}
+
+# Wait-Zeit berechnen basierend auf num_open_orders
+if num_open_orders in wait_time_lookup:
+    wait_time = wait_time_lookup[num_open_orders]
+else:
+    wait_time = 600 # standardmäßig 10 Minuten warten
+
+# Wartezeit anzeigen
+minutes, seconds = divmod(wait_time, 60)
+print(f"wait for: {minutes:02d}min {seconds:02d}sec")
+print("-----------------------------------------------------------------")
+
+# Pause für die berechnete Zeit
+time.sleep(wait_time)
+
