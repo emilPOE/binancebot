@@ -56,7 +56,7 @@ while True:
         if tusd_balance is not None and decimal.Decimal(tusd_balance["free"]) >= decimal.Decimal(tusd_amount):
 
             # Execute market buy order for the specified amount in TUSD
-            #order = client.order_market_buy(symbol=symbol, quoteOrderQty=tusd_amount)
+            order = client.order_market_buy(symbol=symbol, quoteOrderQty=tusd_amount)
 
             # Get the average price of the buy order
             avg_price = decimal.Decimal(order["fills"][0]["price"])
