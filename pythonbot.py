@@ -61,8 +61,8 @@ while True:
             # Get the average price of the buy order
             avg_price = decimal.Decimal(order["fills"][0]["price"])
 
-            # Calculate the sell price with 0.1% profit
-            profit = 0.00025
+            # Calculate the sell price with 0.02% profit
+            profit = 0.0002
             profit_percent = decimal.Decimal(profit)
             sell_price = avg_price * (decimal.Decimal(1) + profit_percent)
 
@@ -109,30 +109,29 @@ while True:
     except Exception as e:
         print(f"Error occurred: {e}")
 
-# Wartezeiten Lookup-Tabelle basierend auf num_open_orders
-wait_time_lookup = {
-    0: (60 * 5),
-    1: (60 * 10),
-    2: (60 * 20),
-    3: (60 * 40),
-    4: (60 * 60),
-    5: (60 * 60),
-    6: (60 * 60 * 1.5),
-    7: (60 * 60 * 2),
-    8: (60 * 60 * 2),
-}
+    # Wartezeiten Lookup-Tabelle basierend auf num_open_orders
+    wait_time_lookup = {
+        0: (60 * 5),
+        1: (60 * 10),
+        2: (60 * 20),
+        3: (60 * 40),
+        4: (60 * 60),
+        5: (60 * 60),
+        6: (60 * 60 * 1.5),
+        7: (60 * 60 * 2),
+        8: (60 * 60 * 2),
+    }
+    # Wait-Zeit berechnen basierend auf num_open_orders
+    if num_open_orders in wait_time_lookup:
+        wait_time = wait_time_lookup[num_open_orders]
+    else:
+        wait_time = 600 # standardmäßig 10 Minuten warten
 
-# Wait-Zeit berechnen basierend auf num_open_orders
-if num_open_orders in wait_time_lookup:
-    wait_time = wait_time_lookup[num_open_orders]
-else:
-    wait_time = 600 # standardmäßig 10 Minuten warten
+    # Wartezeit anzeigen
+    minutes, seconds = divmod(wait_time, 60)
+    print(f"wait for: {minutes:02d}min {seconds:02d}sec")
+    print("-----------------------------------------------------------------")
 
-# Wartezeit anzeigen
-minutes, seconds = divmod(wait_time, 60)
-print(f"wait for: {minutes:02d}min {seconds:02d}sec")
-print("-----------------------------------------------------------------")
-
-# Pause für die berechnete Zeit
-time.sleep(wait_time)
+    # Pause für die berechnete Zeit
+    time.sleep(wait_time)
 
