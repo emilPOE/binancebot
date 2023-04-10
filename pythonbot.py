@@ -49,7 +49,7 @@ while True:
             tusd_amount = total_balance
         tusd_amount = tusd_amount // 1
 
-        print(f"Current TUSD Balance: {tusd_balance['free']}. Total Balance (including {num_open_orders} open limit sell orders): {(total_balance):.4f}$. Total profit of: {(total_balance - 2042):.4f}$")
+        print(f"TUSD Balance: {tusd_balance['free']}. Total Balance including {num_open_orders} open orders: {(total_balance):.4f}$. Total profit of: {(total_balance - 2042):.4f}$")
 
         if tusd_balance is not None and decimal.Decimal(tusd_balance["free"]) >= decimal.Decimal(tusd_amount):
 
@@ -109,14 +109,14 @@ while True:
 
     # Wartezeiten Lookup-Tabelle basierend auf num_open_orders
     wait_time_lookup = {
-        0: (60 * 5),
-        1: (60 * 10),
-        2: (60 * 20),
-        3: (60 * 40),
-        4: (60 * 60),
-        5: (60 * 60),
-        6: (60 * 60 * 1.5),
-        7: (60 * 60 * 2),
+        0: (60 * 2),
+        1: (60 * 5),
+        2: (60 * 5),
+        3: (60 * 10),
+        4: (60 * 20),
+        5: (60 * 20),
+        6: (60 * 40),
+        7: (60 * 60),
         8: (60 * 60 * 2),
     }
     # Wait-Zeit berechnen basierend auf num_open_orders
