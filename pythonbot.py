@@ -33,15 +33,13 @@ while True:
         total_balance = initial_balance + (open_order_value)
         # Lookup-Tabelle für tusd_amounts basierend auf num_open_orders
         tusd_amount_lookup = {
-            0: 0.1,
-            1: 0.1,
-            2: 0.11,
-            3: 0.11,
-            4: 0.11,
-            5: 0.11,
-            6: 0.11,
-            7: 0.125,
-            8: 0.125,
+            0: 0.1438,
+            1: 0.1427,
+            2: 0.1427,
+            3: 0.1427,
+            4: 0.1427,
+            5: 0.1427,
+            6: 0.1427,
         }
 
         # tusd_amount berechnen basierend auf num_open_orders
@@ -51,7 +49,7 @@ while True:
             tusd_amount = total_balance
         tusd_amount = tusd_amount // 1
 
-        print(f"Current TUSD Balance: {tusd_balance['free']}. Total Balance (including {num_open_orders} open limit sell orders): {(total_balance):.4f}")
+        print(f"Current TUSD Balance: {tusd_balance['free']}. Total Balance (including {num_open_orders} open limit sell orders): {(total_balance):.4f}$. Total profit of: {(total_balance - 2042):.4f}$")
 
         if tusd_balance is not None and decimal.Decimal(tusd_balance["free"]) >= decimal.Decimal(tusd_amount):
 
