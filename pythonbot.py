@@ -60,7 +60,7 @@ while True:
             avg_price = decimal.Decimal(order["fills"][0]["price"])
 
             # Calculate the sell price with 0.02% profit
-            profit = 0.0005
+            profit = 0.0015
             profit_percent = decimal.Decimal(profit)
             sell_price = avg_price * (decimal.Decimal(1) + profit_percent)
 
